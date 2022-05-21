@@ -5,7 +5,7 @@ import org.springframework.statemachine.config.builders.StateMachineTransitionCo
 import org.springframework.statemachine.config.configurers.ExternalTransitionConfigurer
 
 interface EventSeveralActionExternalStateConfigurer<State:Enum<State>, Event: Enum<Event>>
-    : EventExternalStateConfigurer<State, Event> {
+    : com.kkaminsky.statemachineapi.transition.external_config.EventExternalStateConfigurer<State, Event> {
 
     val actions: Collection<Action<State,Event>>
 

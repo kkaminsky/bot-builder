@@ -4,5 +4,5 @@ import com.kkaminsky.statemachineapi.transition.TransitionConfig
 
 
 interface BaseChooseExternalStateConfigurer<State:Enum<State>, Event:Enum<Event>>
-    : TransitionConfig<State, Event> {
+    : com.kkaminsky.statemachineapi.transition.TransitionConfig<State, Event> {
 }

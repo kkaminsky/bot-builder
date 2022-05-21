@@ -11,8 +11,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly group: 'org.springframework.boot', name: 'spring-boot-starter', version: '2.3.2.RELEASE'
-    implementation("org.springframework.statemachine:spring-statemachine-core:2.2.0.RELEASE")
+    compileOnly group: 'org.springframework.boot', name: 'spring-boot-starter', version: '2.6.7'
+    implementation("org.springframework.statemachine:spring-statemachine-core:2.5.0")
     implementation("org.springframework.statemachine:spring-statemachine-data-redis:2.2.0.RELEASE")
     implementation("redis.clients:jedis:3.3.0")
     implementation "org.jetbrains.kotlin:kotlin-stdlib"

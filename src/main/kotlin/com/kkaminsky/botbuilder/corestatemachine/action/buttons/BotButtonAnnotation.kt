@@ -1,4 +1,4 @@
-package com.kkaminsky.botbuilder.template.event
+package com.kkaminsky.botbuilder.corestatemachine.action.buttons
 
 
 annotation class BotButtonAnnotation(val prefix: String)

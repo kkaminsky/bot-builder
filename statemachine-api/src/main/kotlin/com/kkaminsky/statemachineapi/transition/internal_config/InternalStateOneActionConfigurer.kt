@@ -7,7 +7,7 @@ import org.springframework.statemachine.config.builders.StateMachineTransitionCo
 import org.springframework.statemachine.config.common.annotation.AnnotationConfigurerBuilder
 
 interface InternalStateOneActionConfigurer<State: Enum<State>, Event: Enum<Event>> :
-    TransitionConfig<State, Event> {
+    com.kkaminsky.statemachineapi.transition.TransitionConfig<State, Event> {
 
     val event: Event
     val action: Action<State, Event>

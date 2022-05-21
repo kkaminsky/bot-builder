@@ -1,8 +1,8 @@
-package com.kkaminsky.botbuilder.core.state
+package com.kkaminsky.botbuilder.corestatemachine.state
 
-import com.kkaminsky.botbuilder.core.UserBotEvent
-import com.kkaminsky.botbuilder.core.UserBotState
-import com.kkaminsky.botbuilder.core.action.GreetingAction
+import com.kkaminsky.botbuilder.corestatemachine.config.enums.UserBotEvent
+import com.kkaminsky.botbuilder.corestatemachine.config.enums.UserBotState
+import com.kkaminsky.botbuilder.corestatemachine.action.GreetingAction
 import org.springframework.stereotype.Component
 
 @Component

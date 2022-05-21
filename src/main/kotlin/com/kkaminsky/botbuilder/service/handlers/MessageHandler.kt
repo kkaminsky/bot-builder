@@ -1,8 +1,8 @@
 package com.kkaminsky.botbuilder.service.handlers
 
-import com.kkaminsky.botbuilder.consts.EnumEventVariables
-import com.kkaminsky.botbuilder.core.UserBotEvent
-import com.kkaminsky.botbuilder.core.UserBotState
+import com.kkaminsky.botbuilder.config.consts.EnumEventVariables
+import com.kkaminsky.botbuilder.corestatemachine.config.enums.UserBotEvent
+import com.kkaminsky.botbuilder.corestatemachine.config.enums.UserBotState
 import org.springframework.messaging.support.GenericMessage
 import org.springframework.statemachine.config.StateMachineFactory
 import org.springframework.statemachine.persist.StateMachinePersister
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 import org.telegram.telegrambots.meta.api.objects.Update
 
 @Service
-class DefaultHandler(
+class MessageHandler(
     private val stateMachineFactory: StateMachineFactory<UserBotState, UserBotEvent>,
     private val persistent: StateMachinePersister<UserBotState, UserBotEvent, String>
 ) : UpdateHandler {

@@ -11,5 +11,5 @@ import com.kkaminsky.statemachineapi.transition.TransitionConfig
  * (нужен для типобезопасности конфигуратора конкретно в данном виде обработки)
  */
 interface ExternalStateConfigurer <State:Enum<State>, Event:Enum<Event>>
-    : TransitionConfig<State, Event>
+    : com.kkaminsky.statemachineapi.transition.TransitionConfig<State, Event>
 

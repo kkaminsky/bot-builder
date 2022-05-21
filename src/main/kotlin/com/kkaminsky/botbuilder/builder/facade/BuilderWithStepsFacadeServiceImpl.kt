@@ -1,13 +1,15 @@
-package com.kkaminsky.builderapi.builder.facade
+package com.kkaminsky.botbuilder.builder.facade
 
-import com.kkaminsky.builderapi.builder.StringStateMachineBuilder
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.kkaminsky.botbuilder.builder.StringStateMachineBuilder
+import com.kkaminsky.botbuilder.corestatemachine.action.CustomAction
+import com.kkaminsky.botbuilder.builder.objects.*
 import com.kkaminsky.builderapi.dto.step.StepWithEventsDto
-import com.kkaminsky.builderapi.objects.State
-import com.kkaminsky.builderapi.service.UserService
+import com.kkaminsky.builderapi.dto.transition.TransitionWithStepsAndEventsDto
 import com.kkaminsky.builderapi.service.facade.StepWithEventsFacadeService
 import com.kkaminsky.builderapi.service.facade.TransitionWithStepsFacade
+import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.statemachine.StateMachine
-import org.springframework.statemachine.action.Action
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -15,19 +17,37 @@ import java.util.*
 class BuilderWithStepsFacadeServiceImpl(
     private val stepWithEventsFacadeService: StepWithEventsFacadeService,
     private val transitionWithStepsFacade: TransitionWithStepsFacade,
-    private val stringStateMachineBuilder: StringStateMachineBuilder
+    private val stringStateMachineBuilder: StringStateMachineBuilder,
+    private val objectMapper: ObjectMapper,
+    private val rabbitTemplate: RabbitTemplate
 ) : BuilderWithStepsFacadeService {
-    override fun buildStateMachineForUser(stateMachineId: UUID): StateMachine<String, String> {
+    override fun buildStateMachine(stateMachineId: UUID): StateMachine<String, String> {
         val steps = stepWithEventsFacadeService.getSteps(stateMachineId)
         val transitions = transitionWithStepsFacade.getTransitionsWithSteps(stateMachineId)
-        stringStateMachineBuilder.build()
+        val startStep = stepWithEventsFacadeService.getStartStep(stateMachineId)
+        return stringStateMachineBuilder.build(
+            states = steps.map(::mapStep),
+            transitions = transitions.flatMap { mapTransition(it) },
+            startEvent = StartDialog,
+            startState = mapStep(startStep)
+        )
     }
 
-    fun mapStepsToStates(steps: List<StepWithEventsDto>): List<State>{
-        return steps.map {
-            State(
-                name = it.id.toString(),
-                action = Action {  }
+    fun mapStep(step: StepWithEventsDto): State{
+        return State(
+                name = step.id.toString(),
+                action = CustomAction(
+                    step = step,
+                    objectMapper = objectMapper,
+                    rabbitTemplate = rabbitTemplate))
+    }
+
+    fun mapTransition(transition: TransitionWithStepsAndEventsDto): List<Transition>{
+        return transition.eventTypes.map { eventType ->
+            Transition(
+                fromStateName = transition.fromStep.id.toString(),
+                toStateName = transition.toStep.id.toString(),
+                event = CustomEvent(eventType.id.toString())
             )
         }
     }

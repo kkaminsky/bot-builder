@@ -16,27 +16,9 @@ import org.testcontainers.junit.jupiter.Testcontainers
 
 @SpringBootTest
 @ActiveProfiles("test")
-@ContextConfiguration(initializers = [BotBuilderApplicationTests.Companion.DockerPostgreDataSourceInitializer::class])
+@ContextConfiguration(initializers = [BotBuilderApplicationTest.Companion.DockerPostgreDataSourceInitializer::class])
 @Testcontainers
-class BotBuilderApplicationTests {
-
-    @Test
-    fun contextLoads(){
-
-    }
-
-    @Test
-    fun simpleTest(){
-        val a = repository.save(User("test","test"))
-        val b  = repository.findById(a.id)
-        assert(a.id == b.get().id)
-
-    }
-
-    @Autowired
-    lateinit var repository: UserRepository
-
-
+class BotBuilderApplicationTest {
 
     companion object {
         @Container

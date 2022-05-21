@@ -4,7 +4,8 @@ import org.springframework.statemachine.config.builders.StateMachineTransitionCo
 import org.springframework.statemachine.config.configurers.ExternalTransitionConfigurer
 import org.springframework.statemachine.guard.Guard
 
-interface EventGuardStateConfigurer<State:Enum<State>,Event: Enum<Event>> : EventExternalStateConfigurer<State, Event> {
+interface EventGuardStateConfigurer<State:Enum<State>,Event: Enum<Event>> :
+    com.kkaminsky.statemachineapi.transition.external_config.EventExternalStateConfigurer<State, Event> {
 
     val guard: Guard<State, Event>
 

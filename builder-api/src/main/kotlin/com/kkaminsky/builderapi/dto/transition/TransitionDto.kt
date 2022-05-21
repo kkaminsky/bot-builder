@@ -1,19 +1,12 @@
-package com.kkaminsky.builderapi.dto
+package com.kkaminsky.builderapi.dto.transition
 
+import com.kkaminsky.builderapi.dto.statemachine.StateMachineDto
 import java.util.*
 
 
 data class TransitionDto(
     val id: UUID,
-    val eventTypeId: UUID,
-    val stateMachineId: UUID
-)
-
-data class TransitionFullDto(
-    val transition: TransitionDto,
-    val fromStep: StepDto,
-    val toStep: StepDto,
-    val event
+    val stateMachine: StateMachineDto
 )
 
 

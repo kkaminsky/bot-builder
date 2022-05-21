@@ -1,8 +1,13 @@
-package com.kkaminsky.builderapi.service
+package com.kkaminsky.builderapi.service.facade
 
-import com.kkaminsky.builderapi.dto.StepWithEventsDto
+import com.kkaminsky.builderapi.dto.step.CreateStepWithEventsDto
+import com.kkaminsky.builderapi.dto.step.EditStepWithEventsDto
+import com.kkaminsky.builderapi.dto.step.StepWithEventsDto
 import java.util.*
 
 interface StepWithEventsFacadeService {
-    fun getSteps(userId: UUID): List<StepWithEventsDto>
+    fun getSteps(stateMachineId: UUID): List<StepWithEventsDto>
+    fun getStartStep(stateMachineId: UUID): StepWithEventsDto
+    fun createStepWithEvents(model: CreateStepWithEventsDto): StepWithEventsDto
+    fun editStepWithEvents(model: EditStepWithEventsDto): StepWithEventsDto
 }

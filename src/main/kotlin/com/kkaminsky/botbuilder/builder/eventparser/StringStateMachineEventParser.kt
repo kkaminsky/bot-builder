@@ -1,4 +1,4 @@
-package com.kkaminsky.botbuilder.builder
+package com.kkaminsky.botbuilder.builder.eventparser
 
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery
 

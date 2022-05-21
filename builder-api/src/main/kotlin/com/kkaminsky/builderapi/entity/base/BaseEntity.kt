@@ -1,4 +1,4 @@
-package com.ingins.transitionbuilder.entity
+package com.kkaminsky.builderapi.entity.base
 
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp

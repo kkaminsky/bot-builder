@@ -1,4 +1,4 @@
-package com.kkaminsky.builderapi.dto.event
+package com.kkaminsky.builderapi.dto.eventtype
 
 import java.util.*
 

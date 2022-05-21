@@ -1,8 +1,8 @@
-package com.kkaminsky.botbuilder.core.transition
+package com.kkaminsky.botbuilder.corestatemachine.transition
 
 
-import com.kkaminsky.botbuilder.core.UserBotEvent
-import com.kkaminsky.botbuilder.core.UserBotState
+import com.kkaminsky.botbuilder.corestatemachine.config.enums.UserBotEvent
+import com.kkaminsky.botbuilder.corestatemachine.config.enums.UserBotState
 import com.kkaminsky.statemachineapi.transition.external_config.EventExternalStateConfigurer
 import org.springframework.stereotype.Component
 

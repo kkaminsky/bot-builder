@@ -63,7 +63,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: state_machine_user_fkey
-                    references: ${schema}.state_machine(id)
+                    references: ${schema}.user(id)
                     deleteCascade: true
                   name: user_id
                   type: UUID

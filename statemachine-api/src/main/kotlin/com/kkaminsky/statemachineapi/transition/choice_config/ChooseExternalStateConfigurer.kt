@@ -5,7 +5,7 @@ import org.springframework.statemachine.config.builders.StateMachineTransitionCo
 import org.springframework.statemachine.config.configurers.ChoiceTransitionConfigurer
 
 interface ChooseExternalStateConfigurer<State:Enum<State>,Event: Enum<Event>> :
-    ChooseExternalWithoutAction<State, Event> {
+    com.kkaminsky.statemachineapi.transition.choice_config.ChooseExternalWithoutAction<State, Event> {
 
     val firstAction: Action<State, Event>
     val firstErrorAction: Action<State,Event>

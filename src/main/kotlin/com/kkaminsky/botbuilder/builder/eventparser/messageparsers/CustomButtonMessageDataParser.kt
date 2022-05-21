@@ -1,6 +1,6 @@
-package com.kkaminsky.botbuilder.builder
+package com.kkaminsky.botbuilder.builder.eventparser.messageparsers
 
-import com.kkaminsky.botbuilder.template.event.BotButton
+import com.kkaminsky.botbuilder.corestatemachine.action.buttons.BotButton
 import com.kkaminsky.builderapi.service.EventService
 import org.springframework.stereotype.Service
 import java.util.*

@@ -1,4 +1,4 @@
-package com.kkaminsky.botbuilder.consts
+package com.kkaminsky.botbuilder.config.consts
 
 enum class EnumEventVariables {
     STATE_MACHINE_ID,

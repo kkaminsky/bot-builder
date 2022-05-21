@@ -1,9 +1,9 @@
-package com.kkaminsky.botbuilder.template.event
+package com.kkaminsky.botbuilder.corestatemachine.action.buttons
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonTypeInfo
-import com.kkaminsky.botbuilder.consts.Consts
+import com.kkaminsky.botbuilder.config.consts.Consts
 import kotlin.reflect.full.findAnnotation
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
@@ -14,7 +14,7 @@ sealed class BotButton() {
     abstract val messageData: String
     abstract val link: String?
 
-    val messageButtonData: String by lazy{mainPrefix + prefix + separator + messageData}
+    val messageButtonData: String by lazy{ mainPrefix + prefix + separator + messageData}
     val prefix: String = this::class.findAnnotation<BotButtonAnnotation>()?.prefix?:""
 
 

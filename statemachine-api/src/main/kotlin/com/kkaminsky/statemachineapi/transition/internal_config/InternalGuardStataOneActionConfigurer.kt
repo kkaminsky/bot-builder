@@ -8,7 +8,7 @@ import org.springframework.statemachine.config.common.annotation.AnnotationConfi
 import org.springframework.statemachine.guard.Guard
 
 interface InternalGuardStataOneActionConfigurer<State: Enum<State>, Event: Enum<Event>> :
-    TransitionConfig<State, Event> {
+    com.kkaminsky.statemachineapi.transition.TransitionConfig<State, Event> {
     val guard: Guard<State, Event>
     val event: Event
     val action: Action<State, Event>

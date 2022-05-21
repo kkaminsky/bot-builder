@@ -1,6 +1,7 @@
-package com.kkaminsky.botbuilder.builder
+package com.kkaminsky.botbuilder.builder.eventparser.messageparsers
 
-import com.kkaminsky.botbuilder.template.event.BotButton
+import com.kkaminsky.botbuilder.config.consts.Consts
+import com.kkaminsky.botbuilder.corestatemachine.action.buttons.BotButton
 import org.springframework.stereotype.Service
 
 @Service
@@ -9,6 +10,6 @@ class StartButtonMessageDataParser: MessageDataParser {
         get() = BotButton.StateDialogBotButton::class.java
 
     override fun getEvent(messageData: String): String {
-        return "start"
+        return Consts.startDialogEventPrefix
     }
 }

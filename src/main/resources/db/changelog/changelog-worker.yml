@@ -17,7 +17,7 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
-                    primaryKeyName: state_pkey
+                    primaryKeyName: user_pkey
                     primaryKey: true
                     unique: true
                   name: id
@@ -45,7 +45,7 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
-                    primaryKeyName: state_pkey
+                    primaryKeyName: state_machine_pkey
                     primaryKey: true
                     unique: true
                   name: id
@@ -63,7 +63,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: state_machine_user_fkey
-                    references: ${schema}.state_machine(id)
+                    references: ${schema}.user(id)
                     deleteCascade: true
                   name: user_id
                   type: UUID
@@ -78,7 +78,7 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
-                    primaryKeyName: state_pkey
+                    primaryKeyName: step_pkey
                     primaryKey: true
                     unique: true
                   name: id
@@ -111,7 +111,7 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
-                    primaryKeyName: state_pkey
+                    primaryKeyName: event_type_pkey
                     primaryKey: true
                     unique: true
                   name: id
@@ -144,7 +144,7 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
-                    primaryKeyName: state_pkey
+                    primaryKeyName: event_pkey
                     primaryKey: true
                     unique: true
                   name: id
@@ -158,14 +158,6 @@ databaseChangeLog:
               - column:
                   name: update_time
                   type: TIMESTAMP(3)
-              - column:
-                  constraints:
-                    nullable: false
-                    foreignKeyName: event_state_machine_fkey
-                    references: ${schema}.state_machine(id)
-                    deleteCascade: true
-                  name: state_machine_id
-                  type: UUID
               - column:
                   constraints:
                     nullable: false
@@ -185,7 +177,7 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
-                    primaryKeyName: state_pkey
+                    primaryKeyName: event_to_step_pkey
                     primaryKey: true
                     unique: true
                   name: id
@@ -229,30 +221,6 @@ databaseChangeLog:
                   name: id
                   type: UUID
               - column:
-                  constraints:
-                    nullable: false
-                    foreignKeyName: transition_from_step_fkey
-                    references: ${schema}.step(id)
-                    deleteCascade: true
-                  name: from_step_id
-                  type: UUID
-              - column:
-                  constraints:
-                    nullable: false
-                    foreignKeyName: transition_to_step_fkey
-                    references: ${schema}.step(id)
-                    deleteCascade: true
-                  name: to_step_id
-                  type: UUID
-              - column:
-                  constraints:
-                    nullable: false
-                    foreignKeyName: transition_event_type_fkey
-                    references: ${schema}.event_type(id)
-                    deleteCascade: true
-                  name: event_type_id
-                  type: UUID
-              - column:
                   name: create_time
                   type: TIMESTAMP(3)
               - column:
@@ -266,3 +234,94 @@ databaseChangeLog:
                     deleteCascade: true
                   name: state_machine_id
                   type: UUID
+  - changeSet:
+      id: create-table-transition-to-step
+      author: kkaminsky
+      changes:
+        - createTable:
+            tableName: transition_to_step
+            schemaName: ${schema}
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKeyName: transition_to_step_pkey
+                    primaryKey: true
+                    unique: true
+                  name: id
+                  type: UUID
+              - column:
+                  name: create_time
+                  type: TIMESTAMP(3)
+              - column:
+                  name: update_time
+                  type: TIMESTAMP(3)
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: transition_to_step_step_fkey
+                    references: ${schema}.step(id)
+                    deleteCascade: true
+                  name: step_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: transition_to_step_transition_fkey
+                    references: ${schema}.transition(id)
+                    deleteCascade: true
+                  name: transition_id
+                  type: UUID
+              - column:
+                  name: direction_type
+                  type: VARCHAR
+  - changeSet:
+      id: create-table-transition-to-event-type
+      author: kkaminsky
+      changes:
+        - createTable:
+            tableName: transition_to_event_type
+            schemaName: ${schema}
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKeyName: transition_to_event_type_pkey
+                    primaryKey: true
+                    unique: true
+                  name: id
+                  type: UUID
+              - column:
+                  name: create_time
+                  type: TIMESTAMP(3)
+              - column:
+                  name: update_time
+                  type: TIMESTAMP(3)
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: transition_to_event_type_event_type_fkey
+                    references: ${schema}.event_type(id)
+                    deleteCascade: true
+                  name: event_type_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: transition_to_event_type_transition_fkey
+                    references: ${schema}.transition(id)
+                    deleteCascade: true
+                  name: transition_id
+                  type: UUID
+  - changeSet:
+      id: add-column-is-start
+      author: kkaminsky
+      changes:
+        - addColumn:
+            schemaName: ${schema}
+            tableName: step
+            columns:
+              - column:
+                  name: is_start
+                  type: BOOLEAN
+                  defaultValueComputed: false

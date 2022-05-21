@@ -1,8 +1,7 @@
-package com.kkaminsky.builderapi.dto
+package com.kkaminsky.builderapi.dto.transition
 
 import java.util.*
 
 data class CreateTransitionDto(
-    val eventTypeId: UUID,
     val stateMachineId: UUID
 )

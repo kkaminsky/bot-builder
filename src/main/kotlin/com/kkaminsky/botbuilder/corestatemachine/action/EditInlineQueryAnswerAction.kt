@@ -1,7 +1,7 @@
-package com.kkaminsky.botbuilder.core.action
+package com.kkaminsky.botbuilder.corestatemachine.action
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.kkaminsky.botbuilder.consts.EnumEventVariables
+import com.kkaminsky.botbuilder.config.consts.EnumEventVariables
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.statemachine.StateContext
 import org.springframework.statemachine.action.Action
@@ -22,9 +22,6 @@ interface EditInlineQueryAnswerAction : Action<String, String> {
         rabbitTemplate.convertAndSend("out-queue-edit-text", objectMapper.writeValueAsString(resultEdit))
     }
 
-
-
-    fun editButtons(message: Update): BotApiMethod<*>
 
 
     fun editText(message: Update): BotApiMethod<*>

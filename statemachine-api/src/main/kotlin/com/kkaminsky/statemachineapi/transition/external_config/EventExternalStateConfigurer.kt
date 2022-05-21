@@ -8,7 +8,7 @@ import org.springframework.statemachine.config.configurers.ExternalTransitionCon
  * добавляет описание вызываемого события
  */
 interface EventExternalStateConfigurer<State:Enum<State>,Event: Enum<Event>>
-    : TargetExternalStateConfigurer<State, Event> {
+    : com.kkaminsky.statemachineapi.transition.external_config.TargetExternalStateConfigurer<State, Event> {
 
     val event : Event
 

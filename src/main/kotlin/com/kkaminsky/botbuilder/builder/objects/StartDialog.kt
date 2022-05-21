@@ -1,6 +1,6 @@
-package com.kkaminsky.botbuilder.objects
+package com.kkaminsky.botbuilder.builder.objects
 
-import com.kkaminsky.botbuilder.consts.Consts
+import com.kkaminsky.botbuilder.config.consts.Consts
 
 object StartDialog: TransitionEvent {
     override val name: String

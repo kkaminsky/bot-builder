@@ -1,6 +1,10 @@
 spring:
-  datasource:
-    url: jdbc:h2:mem:test
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  test:
+    database:
+      replace: none
   liquibase:
     default-schema: public
     change-log: "classpath:/db/changelog/changelog-master.yml"
@@ -13,7 +17,6 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
         default_schema: bot_builder
         order_inserts: true
         order_updates: true
@@ -32,5 +35,9 @@ logging:
     org.hibernate.stat: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
     org.hibernate.SQL: DEBUG
+    org.testcontainers: INFO
+    com.github.dockerjava: WARN
+    springframework.boot.autoconfigure.logging: INFO
+
 server:
-  port: 8181
+  port: 8888

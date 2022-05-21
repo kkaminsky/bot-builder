@@ -1,5 +1,7 @@
-package com.kkaminsky.builderapi.dto
+package com.kkaminsky.builderapi.dto.step
 
+import com.kkaminsky.builderapi.dto.statemachine.StateMachineDto
+import com.kkaminsky.builderapi.dto.event.EventDto
 import java.util.*
 
 data class StepWithEventsDto(

@@ -1,4 +1,4 @@
-package com.kkaminsky.botbuilder.consts
+package com.kkaminsky.botbuilder.config.consts
 
 object Consts {
     const val separator = "_"

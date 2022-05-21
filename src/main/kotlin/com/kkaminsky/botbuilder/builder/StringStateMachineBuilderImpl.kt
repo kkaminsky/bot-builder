@@ -1,15 +1,15 @@
-package com.kkaminsky.builderapi.builder
+package com.kkaminsky.botbuilder.builder
 
-import com.kkaminsky.builderapi.objects.State
-import com.kkaminsky.builderapi.objects.Transition
-import com.kkaminsky.builderapi.objects.TransitionEvent
+import com.kkaminsky.botbuilder.builder.objects.State
+import com.kkaminsky.botbuilder.builder.objects.Transition
+import com.kkaminsky.botbuilder.builder.objects.TransitionEvent
 import org.springframework.statemachine.StateMachine
 import org.springframework.statemachine.config.StateMachineBuilder
 import org.springframework.stereotype.Service
 
 @Service
 class StringStateMachineBuilderImpl : StringStateMachineBuilder {
-    override fun build(transitions: List<Transition>, states: List<State>, startEvent: TransitionEvent): StateMachine<String, String> {
+    override fun build(transitions: List<Transition>, states: List<State>, startEvent: TransitionEvent,startState: State): StateMachine<String, String> {
         val builder =  StateMachineBuilder.builder<String, String>()
         builder.configureConfiguration()
             .withConfiguration()
@@ -21,8 +21,8 @@ class StringStateMachineBuilderImpl : StringStateMachineBuilder {
         transitions.forEach { transition ->
             transitionConfigurer
                 .withExternal()
-                .source(transition.fromState.name)
-                .target(transition.toState.name)
+                .source(transition.fromStateName)
+                .target(transition.toStateName)
                 .event(transition.event.name)
                 .and()
         }
@@ -30,7 +30,7 @@ class StringStateMachineBuilderImpl : StringStateMachineBuilder {
         transitionConfigurer
             .withExternal()
             .source("start")
-            .target(states.first().name)
+            .target(startState.name)
             .event(startEvent.name)
 
         val statesConfigurer = builder.configureStates()

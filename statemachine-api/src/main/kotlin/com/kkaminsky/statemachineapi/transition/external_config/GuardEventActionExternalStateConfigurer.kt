@@ -5,7 +5,7 @@ import org.springframework.statemachine.config.configurers.ExternalTransitionCon
 import org.springframework.statemachine.guard.Guard
 
 interface GuardEventActionExternalStateConfigurer<State:Enum<State>,Event:Enum<Event>>
-    : EventSeveralActionExternalStateConfigurer<State, Event> {
+    : com.kkaminsky.statemachineapi.transition.external_config.EventSeveralActionExternalStateConfigurer<State, Event> {
 
     val guards: Collection<Guard<State,Event>>
 

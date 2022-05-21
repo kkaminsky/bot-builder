@@ -1,4 +1,4 @@
-package com.kkaminsky.builderapi.dto
+package com.kkaminsky.builderapi.dto.event
 
 import java.util.*
 
@@ -7,3 +7,4 @@ data class CreateEventDto(
     val stateMachineId: UUID,
     val eventTypeId: UUID
 )
+

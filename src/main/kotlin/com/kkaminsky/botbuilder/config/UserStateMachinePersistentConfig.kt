@@ -2,9 +2,8 @@ package com.kkaminsky.botbuilder.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.kkaminsky.botbuilder.core.UserBotEvent
-import com.kkaminsky.botbuilder.core.UserBotState
-import liquibase.pro.packaged.S
+import com.kkaminsky.botbuilder.corestatemachine.config.enums.UserBotEvent
+import com.kkaminsky.botbuilder.corestatemachine.config.enums.UserBotState
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.redis.connection.RedisConnectionFactory
@@ -17,7 +16,6 @@ import org.springframework.statemachine.persist.DefaultStateMachinePersister
 import org.springframework.statemachine.persist.StateMachinePersister
 import org.springframework.statemachine.support.DefaultExtendedState
 import org.springframework.statemachine.support.DefaultStateMachineContext
-import java.util.*
 
 
 @Configuration
@@ -100,36 +98,36 @@ class SessionStateMachinePersist(private val redisOperations: RedisOperations<St
 
 
 
-    override fun read(contextObj: String): StateMachineContext<UserBotState,UserBotEvent>? {
+    override fun read(contextObj: String): StateMachineContext<UserBotState, UserBotEvent>? {
         val stateMachineContext = getContext(contextObj)
         return DefaultStateMachineContext(stateMachineContext?.childs ?: mutableListOf(), stateMachineContext?.state, stateMachineContext?.event,
             stateMachineContext?.eventHeaders, DefaultExtendedState(stateMachineContext?.extendedState?.variables ?: mutableMapOf()), stateMachineContext?.historyStates)
     }
 
-    override fun write(context: StateMachineContext<UserBotState,UserBotEvent>, contextObj: String) {
+    override fun write(context: StateMachineContext<UserBotState, UserBotEvent>, contextObj: String) {
         val serializableExtendedState = SerializableExtendedState(context.extendedState.variables.toMap())
         val serializableStateMachineContext = SerializableStateMachineContext(null, context.childs, context.state, context.historyStates, context.event, context.eventHeaders, serializableExtendedState)
         save(serializableStateMachineContext,contextObj)
     }
 
 
-    fun getContext(id: String): SerializableStateMachineContext<UserBotState,UserBotEvent>? {
+    fun getContext(id: String): SerializableStateMachineContext<UserBotState, UserBotEvent>? {
         return deserialize(redisOperations.opsForValue()[id])
     }
 
 
-    private fun deserialize(data: String?): SerializableStateMachineContext<UserBotState,UserBotEvent>? {
+    private fun deserialize(data: String?): SerializableStateMachineContext<UserBotState, UserBotEvent>? {
         if (data == null || data.length == 0) {
             return null
         }
-        return objectMapper.readValue<SerializableStateMachineContext<UserBotState,UserBotEvent>>(data)
+        return objectMapper.readValue<SerializableStateMachineContext<UserBotState, UserBotEvent>>(data)
     }
 
-    fun save(context: SerializableStateMachineContext<UserBotState,UserBotEvent>?, id: String) {
+    fun save(context: SerializableStateMachineContext<UserBotState, UserBotEvent>?, id: String) {
         redisOperations.opsForValue()[id] = serialize(context)
     }
 
-    private fun serialize(context: SerializableStateMachineContext<UserBotState,UserBotEvent>?): String {
+    private fun serialize(context: SerializableStateMachineContext<UserBotState, UserBotEvent>?): String {
         return objectMapper.writeValueAsString(context)
     }
 

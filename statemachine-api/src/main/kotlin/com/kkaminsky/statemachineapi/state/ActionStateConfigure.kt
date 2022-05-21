@@ -4,7 +4,7 @@ import org.springframework.statemachine.action.Action
 import org.springframework.statemachine.config.configurers.StateConfigurer
 
 interface ActionStateConfigure<State : Enum<State>, Event : Enum<Event>>
-    : StateConfig<State, Event> {
+    : com.kkaminsky.statemachineapi.state.StateConfig<State, Event> {
 
     val action: Action<State, Event>
 

@@ -1,7 +1,7 @@
-package com.kkaminsky.botbuilder.core
+package com.kkaminsky.botbuilder.corestatemachine.config
 
-import com.kkaminsky.statemachineapi.state.StateConfig
-import com.kkaminsky.statemachineapi.transition.TransitionConfig
+import com.kkaminsky.botbuilder.corestatemachine.config.enums.UserBotEvent
+import com.kkaminsky.botbuilder.corestatemachine.config.enums.UserBotState
 import org.springframework.context.annotation.Configuration
 import org.springframework.statemachine.config.EnableStateMachineFactory
 import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter

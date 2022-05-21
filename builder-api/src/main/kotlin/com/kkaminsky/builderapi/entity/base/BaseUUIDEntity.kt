@@ -1,6 +1,5 @@
-package com.ingins.transitionbuilder.entity
+package com.kkaminsky.builderapi.entity.base
 
-import com.ingins.transitionbuilder.entity.BaseEntity
 import java.util.*
 
 

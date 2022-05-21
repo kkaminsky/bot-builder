@@ -1,4 +1,4 @@
-package com.kkaminsky.botbuilder.objects
+package com.kkaminsky.botbuilder.builder.objects
 
 data class Transition(
     val fromStateName: String,
