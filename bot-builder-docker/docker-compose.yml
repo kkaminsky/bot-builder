@@ -1,0 +1,37 @@
+version: "3.7"
+
+services:
+
+  postgres_pm:
+    image: postgres:13
+    container_name: postgres_bot_builder
+    environment:
+      POSTGRES_DB: bot_builder
+      POSTGRES_USER: ingins
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5333:5432"
+    volumes:
+      - postgres-vol_bot-builder:/var/lib/postgresql/data
+
+  rabbitmq:
+    container_name: rabbitmq_bot_builder
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  redis_dh_bot:
+    container_name: redis_bot_builder
+    image: redis:alpine
+    volumes:
+      - redis-vol_bot-builder:/data
+    ports:
+      - "6379:6379"
+
+volumes:
+  redis-vol_bot-builder:
+  postgres-vol_bot-builder:
+
+
+

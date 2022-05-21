@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:test
+  liquibase:
+    default-schema: public
+    change-log: "classpath:/db/changelog/changelog-master.yml"
+    parameters:
+      schema: bot_builder
+      catalog: bot_builder
+    liquibase-schema: public
+  application:
+    name: bot_builder
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        default_schema: bot_builder
+        order_inserts: true
+        order_updates: true
+        format_sql: true
+        show_sql: true
+        use_sql_comments: true
+        generate_statistics: true
+        jdbc:
+          batch_size: 100
+          fetch_size: 100
+          batch_versioned_data: true
+    open-in-view: false
+    generate-ddl: false
+logging:
+  level:
+    org.hibernate.stat: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.SQL: DEBUG
+server:
+  port: 8181

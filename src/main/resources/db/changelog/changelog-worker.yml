@@ -1,0 +1,268 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-schema
+      author: kkaminsky
+      changes:
+        - sql:
+            sql: CREATE SCHEMA IF NOT EXISTS ${schema};
+
+  - changeSet:
+      id: create-table-user
+      author: kkaminsky
+      changes:
+        - createTable:
+            tableName: user
+            schemaName: ${schema}
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKeyName: state_pkey
+                    primaryKey: true
+                    unique: true
+                  name: id
+                  type: UUID
+              - column:
+                  name: username
+                  type: VARCHAR
+              - column:
+                  name: telegram_id
+                  type: VARCHAR
+              - column:
+                  name: create_time
+                  type: TIMESTAMP(3)
+              - column:
+                  name: update_time
+                  type: TIMESTAMP(3)
+  - changeSet:
+      id: create-table-statemachine
+      author: kkaminsky
+      changes:
+        - createTable:
+            tableName: state_machine
+            schemaName: ${schema}
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKeyName: state_pkey
+                    primaryKey: true
+                    unique: true
+                  name: id
+                  type: UUID
+              - column:
+                  name: name
+                  type: VARCHAR
+              - column:
+                  name: create_time
+                  type: TIMESTAMP(3)
+              - column:
+                  name: update_time
+                  type: TIMESTAMP(3)
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: state_machine_user_fkey
+                    references: ${schema}.state_machine(id)
+                    deleteCascade: true
+                  name: user_id
+                  type: UUID
+  - changeSet:
+      id: create-table-step
+      author: kkaminsky
+      changes:
+        - createTable:
+            tableName: step
+            schemaName: ${schema}
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKeyName: state_pkey
+                    primaryKey: true
+                    unique: true
+                  name: id
+                  type: UUID
+              - column:
+                  name: text
+                  type: VARCHAR
+              - column:
+                  name: create_time
+                  type: TIMESTAMP(3)
+              - column:
+                  name: update_time
+                  type: TIMESTAMP(3)
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: step_state_machine_fkey
+                    references: ${schema}.state_machine(id)
+                    deleteCascade: true
+                  name: state_machine_id
+                  type: UUID
+  - changeSet:
+      id: create-table-event-type
+      author: kkaminsky
+      changes:
+        - createTable:
+            tableName: event_type
+            schemaName: ${schema}
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKeyName: state_pkey
+                    primaryKey: true
+                    unique: true
+                  name: id
+                  type: UUID
+              - column:
+                  name: name
+                  type: VARCHAR
+              - column:
+                  name: create_time
+                  type: TIMESTAMP(3)
+              - column:
+                  name: update_time
+                  type: TIMESTAMP(3)
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: event_type_state_machine_fkey
+                    references: ${schema}.state_machine(id)
+                    deleteCascade: true
+                  name: state_machine_id
+                  type: UUID
+  - changeSet:
+      id: create-table-event
+      author: kkaminsky
+      changes:
+        - createTable:
+            tableName: event
+            schemaName: ${schema}
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKeyName: state_pkey
+                    primaryKey: true
+                    unique: true
+                  name: id
+                  type: UUID
+              - column:
+                  name: text
+                  type: VARCHAR
+              - column:
+                  name: create_time
+                  type: TIMESTAMP(3)
+              - column:
+                  name: update_time
+                  type: TIMESTAMP(3)
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: event_state_machine_fkey
+                    references: ${schema}.state_machine(id)
+                    deleteCascade: true
+                  name: state_machine_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: event_event_type_fkey
+                    references: ${schema}.event_type(id)
+                    deleteCascade: true
+                  name: event_type_id
+                  type: UUID
+  - changeSet:
+      id: create-table-event-to-step
+      author: kkaminsky
+      changes:
+        - createTable:
+            tableName: event_to_step
+            schemaName: ${schema}
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKeyName: state_pkey
+                    primaryKey: true
+                    unique: true
+                  name: id
+                  type: UUID
+              - column:
+                  name: create_time
+                  type: TIMESTAMP(3)
+              - column:
+                  name: update_time
+                  type: TIMESTAMP(3)
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: event_to_step_step_fkey
+                    references: ${schema}.step(id)
+                    deleteCascade: true
+                  name: step_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: event_to_step_event_fkey
+                    references: ${schema}.event(id)
+                    deleteCascade: true
+                  name: event_id
+                  type: UUID
+  - changeSet:
+      id: create-table-transition
+      author: kkaminsky
+      changes:
+        - createTable:
+            tableName: transition
+            schemaName: ${schema}
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKeyName: transition_pkey
+                    primaryKey: true
+                    unique: true
+                  name: id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: transition_from_step_fkey
+                    references: ${schema}.step(id)
+                    deleteCascade: true
+                  name: from_step_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: transition_to_step_fkey
+                    references: ${schema}.step(id)
+                    deleteCascade: true
+                  name: to_step_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: transition_event_type_fkey
+                    references: ${schema}.event_type(id)
+                    deleteCascade: true
+                  name: event_type_id
+                  type: UUID
+              - column:
+                  name: create_time
+                  type: TIMESTAMP(3)
+              - column:
+                  name: update_time
+                  type: TIMESTAMP(3)
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: transition_state_machine_fkey
+                    references: ${schema}.state_machine(id)
+                    deleteCascade: true
+                  name: state_machine_id
+                  type: UUID
